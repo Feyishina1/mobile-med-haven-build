@@ -22,6 +22,10 @@ export const Header = () => {
         return 'Doctor Profile';
       case '/book-appointment':
         return 'Book Appointment';
+      case '/video-consultation':
+        return 'Video Consultation';
+      case '/chat':
+        return 'Secure Chat';
       default:
         return 'MedCare Hospital';
     }

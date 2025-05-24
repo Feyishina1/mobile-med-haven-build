@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Calendar } from '@/components/ui/calendar';
@@ -8,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
+import { Video, Users, Shield } from 'lucide-react';
 import {
   Select,
   SelectContent,
@@ -15,6 +15,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Switch } from '@/components/ui/switch';
 
 // Mock doctor data
 const doctors = [
@@ -67,6 +75,8 @@ const BookAppointmentPage = () => {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [selectedTime, setSelectedTime] = useState(initialTimeSlot || "");
   const [reason, setReason] = useState("");
+  const [isVideoConsultation, setIsVideoConsultation] = useState(false);
+  const [appointmentType, setAppointmentType] = useState<"in-person" | "video">("in-person");
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -77,13 +87,47 @@ const BookAppointmentPage = () => {
     }
     
     // Here we would normally submit the appointment to an API
-    toast.success("Appointment booked successfully!");
+    toast.success(`${appointmentType === "video" ? "Video consultation" : "Appointment"} booked successfully!`);
     navigate('/appointments');
   };
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20 pt-16">
       <Header />
+      
+      {/* Appointment Type Selection */}
+      <div className="p-4 bg-white border-b border-gray-200 sticky top-16 z-5">
+        <div className="grid grid-cols-2 gap-4">
+          <Card 
+            className={`cursor-pointer border-2 ${appointmentType === "in-person" ? "border-hospital-blue" : "border-gray-200"}`}
+            onClick={() => setAppointmentType("in-person")}
+          >
+            <CardContent className="p-3 flex flex-col items-center">
+              <Users className="h-8 w-8 text-hospital-blue mb-2" />
+              <p className="text-sm font-medium">In-person Visit</p>
+            </CardContent>
+          </Card>
+          
+          <Card 
+            className={`cursor-pointer border-2 ${appointmentType === "video" ? "border-hospital-blue" : "border-gray-200"}`}
+            onClick={() => setAppointmentType("video")}
+          >
+            <CardContent className="p-3 flex flex-col items-center">
+              <Video className="h-8 w-8 text-hospital-blue mb-2" />
+              <p className="text-sm font-medium">Video Consultation</p>
+            </CardContent>
+          </Card>
+        </div>
+        
+        {appointmentType === "video" && (
+          <div className="mt-3 p-3 bg-blue-50 rounded-lg flex items-center">
+            <Shield className="h-5 w-5 text-hospital-blue mr-2 flex-shrink-0" />
+            <p className="text-xs text-gray-700">
+              End-to-end encrypted video consultations ensure your medical conversation remains private and secure
+            </p>
+          </div>
+        )}
+      </div>
       
       <div className="p-4">
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -153,7 +197,7 @@ const BookAppointmentPage = () => {
           
           {/* Submit Button */}
           <Button type="submit" className="w-full">
-            Confirm Appointment
+            Confirm {appointmentType === "video" ? "Video Consultation" : "Appointment"}
           </Button>
         </form>
       </div>

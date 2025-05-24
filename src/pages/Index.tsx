@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { Hospital, Calendar, User, Phone, Syringe, Thermometer, Bandage, BriefcaseMedical } from 'lucide-react';
+import { Hospital, Calendar, User, Phone, Syringe, Thermometer, Bandage, BriefcaseMedical, Video } from 'lucide-react';
 import { ServiceCard } from '@/components/ui/ServiceCard';
 import { Header } from '@/components/layout/Header';
 import { BottomNavbar } from '@/components/layout/BottomNavbar';
@@ -24,12 +23,20 @@ const Index = () => {
       bgColor: "bg-hospital-light-green"
     },
     {
+      icon: Video,
+      title: "Video Consultation",
+      description: "Secure video appointments from anywhere",
+      path: "/video-consultation",
+      color: "text-purple-600",
+      bgColor: "bg-purple-100"
+    },
+    {
       icon: Syringe,
       title: "Vaccinations",
       description: "Stay protected with our vaccination services",
       path: "/vaccinations",
-      color: "text-purple-600",
-      bgColor: "bg-purple-100"
+      color: "text-orange-600",
+      bgColor: "bg-orange-100"
     },
     {
       icon: Bandage,
